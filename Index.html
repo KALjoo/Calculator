@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <header>
+        
+        <h1>Calculator</h1>
+        <h5>I'm a simple calculator</h5>
+    </header>
+
+    <main>
+            <div id="resultado"></div>
+
+        <div class="botoes">
+
+            <button class="limpar" id="limpar">C</button>
+
+            <button class="numero" id="btncl7">7</button>
+            <button class="numero" id="btncl8">8</button>
+            <button class="numero" id="btncl9">9</button>
+
+            <button class="operacao" id="adicao">+</button>
+
+            <button class="numero" id="btncl4">4</button>
+            <button class="numero" id="btncl5">5</button>
+            <button class="numero" id="btncl6">6</button>
+
+            <button class="operacao" id="subtracao">-</button>
+
+            <button class="numero" id="btncl1">1</button>
+            <button class="numero" id="btncl2">2</button>
+            <button class="numero" id="btncl3">3</button>
+
+            <button class="operacao" id="divisao">/</button>
+
+            <button class="operacao" id="multiplicacao">*</button>
+            <button class="numero" id="btncl0">0</button>
+            <button class="operacao" id="igual">=</button>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        <p>Thanks for using the calculator!</p>
+    </footer>
+
+
+
+
+</body>
+
+
+
+
+
+<style>
+
+    header {
+        grid-area: header;
+    }
+
+    body {
+        background-color: #000000;
+        font-family: cursive;
+        color: #ffffff;
+        text-align: center;
+        display: grid;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        grid-template-rows: auto 1fr auto; /* 👈 isso aqui é a chave */
+        min-height: 100vh; /* faz o body ocupar a tela toda */
+    }
+
+    main {
+        outline: 1px solid lime;
+        padding: 10px;
+        margin: 0 auto;
+        min-height: 550px;
+        width: 700px;
+        overflow: hidden;
+        grid-gap: 10px;
+    }
+
+    #resultado {
+        height: 100px;
+        font-size: 40px;
+        text-align: right;
+        padding-right: 10px;
+    }
+
+    .botoes {
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-areas:
+            "btncl7 btncl8 btncl9 limpar"
+            "btncl4 btncl5 btncl6 adicao"
+            "btncl1 btncl2 btncl3 subtracao"
+            "multiplicacao btncl0 igual divisao";
+    }
+
+    .botoes button {
+        background-color: #000000;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        font-size: 16px;
+        cursor: pointer;
+        aspect-ratio: 1 / 1;
+
+    }
+
+    .botoes button {
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+    .botoes button:active {
+        transform: scale(0.9); /* "afunda" o botão visualmente */
+        background-color: #333333;
+    }
+
+    #btncl7 { grid-area: btncl7; }
+    #btncl8 { grid-area: btncl8; }
+    #btncl9 { grid-area: btncl9; }
+    #btncl4 { grid-area: btncl4; }
+    #btncl5 { grid-area: btncl5; }
+    #btncl6 { grid-area: btncl6; }
+    #btncl1 { grid-area: btncl1; }
+    #btncl2 { grid-area: btncl2; }
+    #btncl3 { grid-area: btncl3; }
+    #btncl0 { grid-area: btncl0; }
+    #subtracao { grid-area: subtracao; }
+    #divisao { grid-area: divisao; }
+    #adicao { grid-area: adicao; }
+    #multiplicacao { grid-area: multiplicacao; }
+    #igual { grid-area: igual; }
+    #limpar { grid-area: limpar; }
+
+
+    footer {
+        grid-area: footer;
+    }
+
+
+</style>
+
+<script>
+
+    let resultado = document.getElementById("resultado");
+    let numero = document.querySelectorAll(".numero");
+    let operacao = document.querySelectorAll(".operacao");
+    let limpar = document.getElementById("limpar");
+    let igual = document.getElementById("igual");
+
+    let pnumero = "";
+    let poperacao = "";
+    let snumero = "";
+
+    limpar.addEventListener("click", function () {
+        resultado.innerHTML = "";
+        pnumero = "";
+        poperacao = "";
+        snumero = "";
+    });
+
+    numero.forEach(function (botao) {
+        botao.addEventListener("click", function () {
+            if (poperacao === "") {
+                pnumero += botao.innerHTML;
+            } else {
+                snumero += botao.innerHTML;
+            }
+            resultado.innerHTML += botao.innerHTML;
+        });
+    });
+
+    operacao.forEach(function (botao) {
+        if (botao.id !== "igual") {
+            botao.addEventListener("click", function () {
+                poperacao = botao.innerHTML;
+                resultado.innerHTML += botao.innerHTML;
+            });
+        }
+    });
+
+    igual.addEventListener("click", function () {
+        let n1 = Number(pnumero);
+        let n2 = Number(snumero);
+        let final;
+
+        if (poperacao === "+") {
+            final = n1 + n2;
+        } else if (poperacao === "-") {
+            final = n1 - n2;
+        } else if (poperacao === "*") {
+            final = n1 * n2;
+        } else if (poperacao === "/") {
+            final = n1 / n2;
+        }
+
+        resultado.innerHTML = final;
+
+        pnumero = final.toString();
+        poperacao = "";
+        snumero = "";
+    });
+
+
+
+</script>
+
+
+</html>
